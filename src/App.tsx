@@ -1,19 +1,26 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
 import { Container, Typography } from "@mui/material";
 import TransactionsList from "./components/TransactionsList";
+import Login from "./components/Login";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [credentials, setCredentials] = useState<string | null>(null);
+
+  const handleLogin = (username: string, password: string) => {
+    const encodedCredentials = btoa(`${username}:${password}`);
+    setCredentials(encodedCredentials);
+  };
 
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
         Transactions Viewer
       </Typography>
-      <TransactionsList />
+      {!credentials ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <TransactionsList credentials={credentials} />
+      )}
     </Container>
   );
 }
