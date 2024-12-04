@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 
 interface Transaction {
-  id: string;
-  transaction: string;
+  description: string;
+  label: string;
+  tag: string;
+  callers?: string[];
 }
 
 interface TransactionsListProps {
@@ -44,6 +46,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ credentials }) => {
         setLoading(false);
       });
   }, [credentials]);
+  console.log("test: ", transactions);
 
   if (loading) {
     return <CircularProgress />;
@@ -57,15 +60,19 @@ const TransactionsList: React.FC<TransactionsListProps> = ({ credentials }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>ID</TableCell>
-          <TableCell>Transaction</TableCell>
+          <TableCell>callers</TableCell>
+          <TableCell>description</TableCell>
+          <TableCell>label</TableCell>
+          <TableCell>tag</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {transactions.map((tx) => (
-          <TableRow key={tx.id}>
-            <TableCell>{tx.id || "N/A"}</TableCell>
-            <TableCell>{tx.transaction || "N/A"}</TableCell>
+        {transactions.map((tx, index) => (
+          <TableRow key={index}>
+            <TableCell>{tx.callers ? tx.callers.join(", ") : "N/A"}</TableCell>
+            <TableCell>{tx.description || "N/A"}</TableCell>
+            <TableCell>{tx.label || "N/A"}</TableCell>
+            <TableCell>{tx.tag || "N/A"}</TableCell>
           </TableRow>
         ))}
       </TableBody>

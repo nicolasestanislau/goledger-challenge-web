@@ -1,14 +1,27 @@
-import { useState } from "react";
-import { Container, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Container, Typography, Button } from "@mui/material";
 import TransactionsList from "./components/TransactionsList";
 import Login from "./components/Login";
 
-function App() {
+const App: React.FC = () => {
   const [credentials, setCredentials] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem("authCredentials");
+    if (savedCredentials) {
+      setCredentials(savedCredentials);
+    }
+  }, []);
 
   const handleLogin = (username: string, password: string) => {
     const encodedCredentials = btoa(`${username}:${password}`);
+    localStorage.setItem("authCredentials", encodedCredentials);
     setCredentials(encodedCredentials);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authCredentials");
+    setCredentials(null);
   };
 
   return (
@@ -19,10 +32,20 @@ function App() {
       {!credentials ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <TransactionsList credentials={credentials} />
+        <>
+          <Button
+            onClick={handleLogout}
+            variant="contained"
+            color="secondary"
+            sx={{ mb: 2 }}
+          >
+            Logout
+          </Button>
+          <TransactionsList credentials={credentials} />
+        </>
       )}
     </Container>
   );
-}
+};
 
 export default App;
