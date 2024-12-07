@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +13,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Logout from "../components/Logout";
 
 interface Props {
   /**
@@ -24,7 +23,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ["transactions", "músicas", <Logout />];
+const navItems = ["transactions", "músicas"];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
